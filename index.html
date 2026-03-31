@@ -8,149 +8,341 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #42207A; /* Deep Purple from original site */
-            --accent: #5C5C5C;  /* Charcoal grey to complement the purple */
+            --primary: #42207A;
+            --primary-light: #5c32a8;
+            --accent: #c9b8e8;       /* Light lavender — readable on dark bg */
             --bg: #F8F9FC;
             --white: #FFFFFF;
             --text: #2D3142;
-            --text-light: #707589;
+            --text-light: #4a4e62;   /* FIX: was #707589, now darker for contrast */
+            --text-muted: #5c6080;   /* FIX: for secondary text on white */
             --radius: 20px;
             --shadow: 0 20px 40px rgba(66, 32, 122, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        
-        /* --- SMART HEADER --- */
-        header {
-            position: absolute; top: 0; width: 100%; z-index: 100;
-            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            background: var(--white); /* White background to match original site */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .logo { height: 60px; /* Filter removed so the full color logo displays correctly */ }
-        .nav-desktop { display: flex; gap: 40px; }
-        .nav-desktop a { color: var(--primary); text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- IMMERSIVE HERO --- */
+        /* --- HEADER --- */
+        header {
+            position: sticky; top: 0; width: 100%; z-index: 100;
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: var(--white);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+        .logo { height: 60px; }
+        .nav-desktop { display: flex; gap: 40px; }
+        .nav-desktop a {
+            color: var(--primary); text-decoration: none;
+            font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+        .nav-desktop a:hover { opacity: 0.7; }
+        .nav-phone {
+            color: var(--primary); font-weight: 800;
+            text-decoration: none; font-size: 14px;
+        }
+
+        /* Mobile hamburger */
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; background: none; border: none; padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block; width: 24px; height: 2px;
+            background: var(--primary); border-radius: 2px;
+        }
+        .nav-drawer { display: none; position: fixed; inset: 0; z-index: 300; }
+        .nav-drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+        .nav-drawer-panel {
+            position: absolute; top: 0; right: 0;
+            width: min(300px, 85vw); height: 100%;
+            background: var(--white); padding: 28px 24px;
+            display: flex; flex-direction: column; gap: 4px; overflow-y: auto;
+        }
+        .nav-drawer-close {
+            align-self: flex-end; background: none; border: none;
+            font-size: 28px; cursor: pointer; color: var(--text); margin-bottom: 16px; line-height: 1;
+        }
+        .nav-drawer a {
+            display: block; font-size: 16px; font-weight: 600;
+            color: var(--primary); padding: 14px 0; border-bottom: 1px solid #eee;
+            text-decoration: none;
+        }
+        .nav-drawer .drawer-phone {
+            margin-top: 20px; font-size: 18px; font-weight: 800;
+            color: var(--primary); text-decoration: none; display: block;
+        }
+        .nav-drawer.open { display: block; }
+
+        /* --- HERO --- */
         .hero {
             height: 90vh; min-height: 700px; background: var(--primary);
-            position: relative; display: flex; align-items: center; padding: 100px 5% 0; /* Padding adjusted for white header */
-            overflow: hidden;
+            position: relative; display: flex; align-items: center;
+            padding: 0 5%; overflow: hidden;
         }
         .hero-overlay {
             position: absolute; right: 0; top: 0; width: 60%; height: 100%;
             background: url('https://i.vimeocdn.com/video/1945122458-75b3e26182c8dfa40d6a91f357b6b716c10cc071c2ba93bd7b41fd87448d779c-d') center/cover;
-            mask-image: linear-gradient(to left, black 70%, transparent);
-            -webkit-mask-image: linear-gradient(to left, black 70%, transparent);
+            mask-image: linear-gradient(to left, black 60%, transparent);
+            -webkit-mask-image: linear-gradient(to left, black 60%, transparent);
         }
-        .hero-content { position: relative; z-index: 10; max-width: 650px; color: white; }
-        .hero-content h1 { 
-            font-family: 'Baskervville', serif; font-size: clamp(40px, 7vw, 85px); 
-            line-height: 1; margin-bottom: 25px; 
+        .hero-content { position: relative; z-index: 10; max-width: 620px; color: white; }
+        .hero-eyebrow {
+            /* FIX: was opacity:0.8 which made white text on purple very faint */
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 800;
+            color: var(--accent); font-size: 12px; margin-bottom: 15px;
         }
-        .hero-content h1 span { color: var(--accent); font-style: italic; opacity: 0.9; }
-        .hero-content p { font-size: 18px; opacity: 0.8; margin-bottom: 40px; font-weight: 300; }
-
-        /* --- CALL TO ACTION --- */
+        .hero-content h1 {
+            font-family: 'Baskervville', serif;
+            font-size: clamp(40px, 7vw, 85px);
+            line-height: 1; margin-bottom: 25px; color: #ffffff;
+        }
+        .hero-content h1 span {
+            /* FIX: was 'color: var(--accent)' charcoal (#5C5C5C) on purple — near invisible */
+            color: #e2d4f8; font-style: italic;
+        }
+        .hero-content .hero-sub {
+            /* FIX: was opacity:0.8 — bumped to full white with softer weight instead */
+            font-size: 18px; color: rgba(255,255,255,0.9);
+            margin-bottom: 40px; font-weight: 300;
+        }
         .btn {
             display: inline-flex; align-items: center; padding: 20px 40px;
             background: var(--white); color: var(--primary);
             text-decoration: none; font-weight: 800; border-radius: 50px;
             transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .btn-outline {
+            background: transparent; color: white;
+            border: 2px solid rgba(255,255,255,0.6); margin-left: 12px;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
 
-        /* --- TRUST BAR (SMART REFRESH) --- */
+        /* --- TRUST STRIP --- */
         .trust-strip {
-            background: var(--white); padding: 30px 5%; margin-top: -50px;
+            background: var(--white); padding: 30px 5%;
             position: relative; z-index: 20; border-radius: var(--radius);
-            box-shadow: var(--shadow); max-width: 1200px; margin-left: auto; margin-right: auto;
-            display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;
+            box-shadow: var(--shadow); max-width: 1200px;
+            margin: -50px auto 0; 
+            display: flex; justify-content: space-around; align-items: center;
+            flex-wrap: wrap; gap: 20px;
         }
         .trust-item { text-align: center; }
-        .trust-item strong { display: block; font-size: 24px; color: var(--primary); }
-        .trust-item span { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; }
+        .trust-item strong {
+            display: block; font-size: 24px; color: var(--primary); font-weight: 800;
+        }
+        .trust-item span {
+            /* FIX: was var(--text-light) #707589 — too faint on white */
+            font-size: 12px; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1.5px;
+        }
 
-        /* --- BENTO GRID SERVICES --- */
+        /* --- SERVICES (BENTO) --- */
         .section-padding { padding: 120px 5%; max-width: 1300px; margin: 0 auto; }
+        .section-heading {
+            font-family: 'Baskervville', serif; font-size: 45px; color: var(--primary);
+        }
+        .section-sub {
+            /* FIX: was var(--text-light) #707589 — darkened */
+            color: var(--text-muted); margin-top: 8px; font-size: 16px;
+        }
         .bento-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 60px;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 25px; margin-top: 60px;
         }
         .bento-card {
             background: var(--white); padding: 40px; border-radius: var(--radius);
-            border: 1px solid rgba(0,0,0,0.03); transition: 0.4s;
+            border: 1px solid rgba(0,0,0,0.05); transition: 0.4s;
         }
         .bento-card:nth-child(1) { grid-column: span 2; background: linear-gradient(45deg, #fff, #f4f0fa); }
-        .bento-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
-        .bento-card h3 { font-family: 'Baskervville', serif; font-size: 28px; margin-bottom: 15px; color: var(--primary); }
-        .bento-card p { color: var(--text-light); }
+        .bento-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: var(--primary); }
+        .bento-card h3 {
+            font-family: 'Baskervville', serif; font-size: 28px;
+            margin-bottom: 15px; color: var(--primary);
+        }
+        .bento-card p {
+            /* FIX: was var(--text-light) — darkened for legibility */
+            color: var(--text-muted); line-height: 1.7;
+        }
 
-        /* --- SMART PROCESS (Horizontal on Mobile) --- */
+        /* --- PROCESS --- */
+        .process-section { background: #fff; border-radius: 50px; }
         .process-container {
             display: flex; gap: 40px; overflow-x: auto; padding-bottom: 20px;
             scroll-snap-type: x mandatory;
         }
         .process-step {
-            min-width: 280px; flex: 1; scroll-snap-align: start;
-            padding: 30px; border-left: 2px solid var(--primary);
+            min-width: 260px; flex: 1; scroll-snap-align: start;
+            padding: 30px; border-left: 3px solid var(--primary);
         }
-        .step-num { font-size: 40px; font-weight: 800; color: var(--primary); opacity: 0.2; }
+        .step-num {
+            font-size: 40px; font-weight: 800; color: var(--primary);
+            /* FIX: was opacity:0.2 — near invisible; bumped to 0.35 */
+            opacity: 0.35; line-height: 1; margin-bottom: 12px;
+        }
+        .process-step h3 {
+            font-family: 'Baskervville', serif; font-size: 22px;
+            color: var(--primary); margin-bottom: 8px;
+        }
+        .process-step p {
+            /* FIX: no explicit color was set — defaulted to body color, fine, but made explicit */
+            color: var(--text-muted); font-size: 15px;
+        }
 
-        /* --- DARK CONTACT FOOTER --- */
+        /* --- REVIEWS --- */
+        .reviews-section { background: var(--bg); }
+        .reviews-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px; margin-top: 60px;
+        }
+        .review-card {
+            background: var(--white); border-radius: var(--radius);
+            padding: 32px; border: 1px solid rgba(66,32,122,0.08);
+            box-shadow: 0 4px 20px rgba(66,32,122,0.05); transition: 0.3s;
+        }
+        .review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+        .review-stars { color: #e8a820; font-size: 16px; letter-spacing: 2px; margin-bottom: 14px; }
+        .review-text {
+            font-size: 14px; line-height: 1.75; color: var(--text);
+            margin-bottom: 22px; font-style: italic;
+        }
+        .review-text::before { content: '\201C'; }
+        .review-text::after  { content: '\201D'; }
+        .reviewer { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid #eee; }
+        .reviewer-avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--primary); color: white; font-size: 13px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .reviewer-name { font-size: 13px; font-weight: 700; color: var(--text); }
+        .reviewer-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        /* --- FOOTER CTA --- */
         .footer-cta {
-            background: var(--primary); color: white; padding: 100px 5%;
-            border-radius: 50px 50px 0 0; text-align: center;
+            background: var(--primary); color: white;
+            padding: 100px 5%; border-radius: 50px 50px 0 0; text-align: center;
         }
-        .footer-cta h2 { font-family: 'Baskervville', serif; font-size: 50px; margin-bottom: 20px; }
+        .footer-eyebrow {
+            /* FIX: was opacity:0.8 on white — now using tinted lavender for contrast */
+            color: var(--accent); font-weight: 800; text-transform: uppercase;
+            margin-bottom: 20px; letter-spacing: 2px; font-size: 13px;
+        }
+        .footer-cta h2 {
+            font-family: 'Baskervville', serif; font-size: clamp(36px, 5vw, 55px);
+            margin-bottom: 20px; color: #ffffff; line-height: 1.15;
+        }
+        .footer-body {
+            /* FIX: was opacity:0.7 — near unreadable white on purple */
+            color: rgba(255,255,255,0.85); margin-bottom: 40px;
+            max-width: 560px; margin-left: auto; margin-right: auto; font-size: 16px;
+        }
+        .footer-links {
+            margin-top: 28px; display: flex; justify-content: center;
+            gap: 32px; flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--accent); font-size: 13px; font-weight: 600;
+            text-decoration: none; letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: #fff; }
+        .footer-copy {
+            /* FIX: was opacity:0.3 — nearly invisible */
+            margin-top: 72px; color: rgba(255,255,255,0.5);
+            font-size: 12px; letter-spacing: 1px;
+        }
 
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero-overlay { opacity: 0.3; width: 100%; mask-image: none; -webkit-mask-image: none; }
+        }
         @media (max-width: 768px) {
-            header { background: var(--white); position: sticky; padding: 15px 5%; }
-            .hero { height: auto; padding: 100px 5% 150px; }
-            .hero-overlay { opacity: 0.4; width: 100%; mask-image: none; }
+            .hero { height: auto; padding: 80px 5% 140px; }
             .bento-grid { grid-template-columns: 1fr; }
             .bento-card:nth-child(1) { grid-column: span 1; }
-            .trust-strip { flex-direction: column; text-align: center; }
-            .nav-desktop { display: none; }
+            .trust-strip { flex-direction: column; text-align: center; margin-top: -30px; }
+            .nav-desktop, .nav-phone { display: none; }
+            .nav-hamburger { display: flex; }
+            .section-padding { padding: 80px 5%; }
+            .footer-cta { padding: 72px 5%; }
+        }
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 38px; }
+            .btn { padding: 16px 28px; font-size: 14px; }
+            .process-step { min-width: 220px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <header>
-        <img src="Gemini_Generated_Image_u7137mu7137mu713.jpg" class="logo" alt="Uptown & Co.">
+        <img src="https://img1.wsimg.com/isteam/ip/7cd32481-705d-4f85-87e1-e5b597209f53/Untitled%20design%20(12).png/:/rs=h:200,cg:true,m/qt=q:100/ll" class="logo" alt="Uptown & Co.">
         <nav class="nav-desktop">
-            <a href="#services">The Services</a>
-            <a href="#process">How it Works</a>
-            <a href="#reviews">Testimonials</a>
+            <a href="#services">Services</a>
+            <a href="#process">How It Works</a>
+            <a href="#reviews">Reviews</a>
         </nav>
-        <a href="tel:2147399665" style="color:var(--primary); font-weight:800; text-decoration:none; font-size:14px;">214-739-9665</a>
+        <a href="tel:2147399665" class="nav-phone">214-739-9665</a>
+        <button class="nav-hamburger" aria-label="Menu" onclick="document.getElementById('drawer').classList.add('open')">
+            <span></span><span></span><span></span>
+        </button>
     </header>
 
+    <!-- MOBILE DRAWER -->
+    <div class="nav-drawer" id="drawer">
+        <div class="nav-drawer-backdrop" onclick="document.getElementById('drawer').classList.remove('open')"></div>
+        <div class="nav-drawer-panel">
+            <button class="nav-drawer-close" onclick="document.getElementById('drawer').classList.remove('open')">&#215;</button>
+            <a href="#services" onclick="document.getElementById('drawer').classList.remove('open')">Services</a>
+            <a href="#process" onclick="document.getElementById('drawer').classList.remove('open')">How It Works</a>
+            <a href="#reviews" onclick="document.getElementById('drawer').classList.remove('open')">Reviews</a>
+            <a href="#contact" onclick="document.getElementById('drawer').classList.remove('open')">Get Inspection</a>
+            <a href="tel:2147399665" class="drawer-phone">214-739-9665</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p style="text-transform:uppercase; letter-spacing:4px; font-weight:800; color:var(--white); font-size:12px; margin-bottom:15px; opacity:0.8;">Elite Roofing & Construction</p>
-            <h1>Texas Homes. <br><span>Refined & Protected.</span></h1>
-            <p>From drone-assisted inspections to master-class installations, we treat your DFW property with the detail it deserves.</p>
+            <p class="hero-eyebrow">Elite Roofing &amp; Construction &mdash; DFW Metroplex</p>
+            <h1>Texas Homes.<br><span>Refined &amp; Protected.</span></h1>
+            <p class="hero-sub">From drone-assisted inspections to master-class installations, we treat your DFW property with the detail it deserves.</p>
             <a href="#contact" class="btn">Claim Your Free Inspection</a>
+            <a href="tel:2147399665" class="btn btn-outline">214-739-9665</a>
         </div>
     </section>
 
+    <!-- TRUST STRIP -->
     <div class="trust-strip">
-        <div class="trust-item"><strong>5.0 ★</strong><span>Google Rated</span></div>
-        <div class="trust-item"><strong>24HR</strong><span>Rapid Install</span></div>
-        <div class="trust-item"><strong>130+</strong><span>DFW Projects</span></div>
-        <div class="trust-item"><strong>100%</strong><span>Claim Success</span></div>
+        <div class="trust-item">
+            <strong>5.0 &#9733;</strong>
+            <span>Google Rated</span>
+        </div>
+        <div class="trust-item">
+            <strong>134+</strong>
+            <span>5-Star Reviews</span>
+        </div>
+        <div class="trust-item">
+            <strong>1 Day</strong>
+            <span>Typical Install</span>
+        </div>
+        <div class="trust-item">
+            <strong>100%</strong>
+            <span>Claim Handling</span>
+        </div>
     </div>
 
+    <!-- SERVICES -->
     <section class="section-padding" id="services">
         <div style="text-align:center; margin-bottom:60px;">
-            <h2 style="font-family:'Baskervville', serif; font-size:45px; color:var(--primary);">The Uptown Standard</h2>
-            <p style="color:var(--text-light)">Beyond the shingle. We manage the art and science of home protection.</p>
+            <h2 class="section-heading">The Uptown Standard</h2>
+            <p class="section-sub">Beyond the shingle. We manage the art and science of home protection.</p>
         </div>
-
         <div class="bento-grid">
             <div class="bento-card">
                 <h3>Residential Excellence</h3>
@@ -158,54 +350,138 @@
             </div>
             <div class="bento-card">
                 <h3>Insurance Mastery</h3>
-                <p>We speak the adjuster's language. We manage the paperwork and advocate for your full restoration.</p>
+                <p>We speak the adjuster&rsquo;s language. We manage the paperwork and advocate for your full restoration &mdash; at no extra cost to you.</p>
             </div>
             <div class="bento-card">
                 <h3>Drone Analysis</h3>
-                <p>High-resolution aerial imagery ensures no damage is hidden from your claim.</p>
+                <p>High-resolution aerial imagery ensures no damage is overlooked and gives you visual proof throughout the process.</p>
             </div>
             <div class="bento-card">
-                <h3>Exterior Care</h3>
-                <p>Custom gutters, fencing, and home additions tailored to your style.</p>
+                <h3>Gutters &amp; Exterior</h3>
+                <p>Custom gutters and exterior care tailored to complement your new roof and protect your home long-term.</p>
             </div>
         </div>
     </section>
 
-    <section class="section-padding" id="process" style="background:#fff; border-radius:50px;">
-        <h2 style="font-family:'Baskervville', serif; font-size:45px; margin-bottom:50px; color:var(--primary);">The Simple Path</h2>
+    <!-- PROCESS -->
+    <section class="section-padding process-section" id="process">
+        <h2 class="section-heading">The Simple Path</h2>
+        <p class="section-sub" style="margin-bottom:50px;">Four steps from damage to done.</p>
         <div class="process-container">
             <div class="process-step">
                 <div class="step-num">01</div>
                 <h3>The Scan</h3>
-                <p>Free drone-assisted inspection and damage report.</p>
+                <p>Free drone-assisted inspection and damage report &mdash; fully documented, no cost to you.</p>
             </div>
             <div class="process-step">
                 <div class="step-num">02</div>
                 <h3>The Claim</h3>
-                <p>We handle all insurance communication on your behalf.</p>
+                <p>We handle all insurance communication on your behalf. You stay informed, never overwhelmed.</p>
             </div>
             <div class="process-step">
                 <div class="step-num">03</div>
                 <h3>The Build</h3>
-                <p>Elite installation, usually completed in a single day.</p>
+                <p>Elite installation, usually completed in a single day. Clean site, quality materials, professional crew.</p>
             </div>
             <div class="process-step">
                 <div class="step-num">04</div>
                 <h3>The Sign-off</h3>
-                <p>Final aerial walkthrough to ensure perfection.</p>
+                <p>Final aerial walkthrough and drone photos sent directly to you so you can see every detail.</p>
             </div>
         </div>
     </section>
 
-    <section class="footer-cta" id="contact">
-        <p style="color:var(--white); font-weight:800; text-transform:uppercase; margin-bottom:20px; letter-spacing:2px; opacity:0.8;">Get Started</p>
-        <h2>Your roof is one <br>phone call away.</h2>
-        <p style="opacity:0.7; margin-bottom:40px; max-width:600px; margin-left:auto; margin-right:auto;">Experience the roofing company that DFW homeowners actually trust. No pressure, just professional expertise.</p>
-        <a href="tel:2147399665" class="btn">Call 214-739-9665</a>
-        
-        <div style="margin-top:80px; opacity:0.3; font-size:12px; letter-spacing:1px;">
-            © 2026 UPTOWN & CO. ROOFING & CONSTRUCTION | NORTH RICHLAND HILLS, TX
+    <!-- REVIEWS -->
+    <section class="section-padding reviews-section" id="reviews">
+        <div style="text-align:center; margin-bottom:20px;">
+            <h2 class="section-heading">What DFW Homeowners Say</h2>
+            <p class="section-sub">5.0 stars across 134 Google reviews. Here&rsquo;s a few.</p>
         </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">Miguel and Eli have excellent customer service and are very professional. They take interest in the client and will take care of submitting all necessary paperwork to the insurance. I recommend this company to everyone!</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">EO</div>
+                    <div>
+                        <div class="reviewer-name">Esther O.</div>
+                        <div class="reviewer-meta">Google &middot; 4 months ago</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">If you want honest, hardworking, upfront roofers &mdash; this is the company. We got the best roof this house has ever had, in the color we wanted. Cleaned up after, then installed new gutters. The best.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">IC</div>
+                    <div>
+                        <div class="reviewer-name">Ivor C.</div>
+                        <div class="reviewer-meta">Google &middot; 3 months ago</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">They kept us updated with drone images throughout the entire process. Finished everything in one day &mdash; by 3 pm, all clean and looking beautiful.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">JH</div>
+                    <div>
+                        <div class="reviewer-name">Joyce H.</div>
+                        <div class="reviewer-meta">Google &middot; 4 months ago</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">Dennis and the team communicated the whole way through. The final product looks amazing. Since they sent pictures throughout, I could see exactly what was happening on my roof.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">SU</div>
+                    <div>
+                        <div class="reviewer-name">Stacy U.</div>
+                        <div class="reviewer-meta">Google &middot; 3 months ago</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">My first time ever dealing with anything roofing-related and these guys made it seamless from beginning to end &mdash; leaving me with nothing to worry about.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">AC</div>
+                    <div>
+                        <div class="reviewer-name">Andre C.</div>
+                        <div class="reviewer-meta">Google &middot; 1 month ago</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">Hands down the best roofing company I&rsquo;ve ever worked with. True professionalism, honesty, and commitment. Arrived on time, explained everything clearly, and delivered exactly what was promised.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">OB</div>
+                    <div>
+                        <div class="reviewer-name">Omar B.</div>
+                        <div class="reviewer-meta">Google &middot; 5 months ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <section class="footer-cta" id="contact">
+        <p class="footer-eyebrow">Get Started Today</p>
+        <h2>Your roof is one<br>phone call away.</h2>
+        <p class="footer-body">Experience the roofing company that DFW homeowners actually trust. No pressure, just professional expertise from inspection to sign-off.</p>
+        <a href="tel:2147399665" class="btn">Call 214-739-9665</a>
+        <div class="footer-links">
+            <a href="https://www.facebook.com/269066729624720" target="_blank">Facebook</a>
+            <a href="https://www.instagram.com/uptownroofers/" target="_blank">Instagram</a>
+            <a href="https://www.tiktok.com/@uptownroofers" target="_blank">TikTok</a>
+            <a href="mailto:admin@uptownroofers.com">admin@uptownroofers.com</a>
+        </div>
+        <p class="footer-copy">
+            &copy; 2026 Uptown &amp; Co. Roofing &amp; Construction &nbsp;|&nbsp; North Richland Hills, TX &nbsp;|&nbsp; Garland &nbsp;|&nbsp; Rockwall
+        </p>
     </section>
 
 </body>
