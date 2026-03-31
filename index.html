@@ -3,335 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uptown & Co. — Roofing & Construction | DFW Metroplex</title>
-    
+    <title>Uptown & Co. | DFW's Premier Roofing & Construction</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --purple:       #5B3D9E;
-            --purple-dark:  #3E2870;
-            --purple-light: #7B5BBE;
-            --purple-pale:  #F8F6FF;
-            --gold:         #E8A820;
-            --gold-bright:  #FFC145;
-            --dark:         #1A1A1C;
-            --gray:         #52525B;
-            --light:        #F4F4F9;
-            --white:        #FFFFFF;
-            --border:       #E5E0F0;
-            --radius-lg:    16px;
-            --radius-md:    12px;
-            --shadow-sm:    0 2px 8px rgba(0,0,0,0.05);
-            --shadow-md:    0 12px 32px rgba(91,61,158,0.12);
-            --transition:   all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary: #1A1C2E; /* Deep Indigo */
+            --accent: #D4AF37;  /* Metallic Gold */
+            --bg: #F8F9FC;
+            --white: #FFFFFF;
+            --text: #2D3142;
+            --text-light: #707589;
+            --radius: 20px;
+            --shadow: 0 20px 40px rgba(26, 28, 46, 0.08);
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            color: var(--dark); 
-            background: var(--white); 
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+        /* --- SMART HEADER --- */
+        header {
+            position: absolute; top: 0; width: 100%; z-index: 100;
+            padding: 30px 5%; display: flex; justify-content: space-between; align-items: center;
         }
+        .logo { height: 45px; filter: brightness(0) invert(1); }
+        .nav-desktop { display: flex; gap: 40px; }
+        .nav-desktop a { color: white; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        
-        /* Typography Overhaul */
-        h1, h2, h3, .serif { font-family: 'Lora', serif; }
-        .section-label { 
-            font-size: 12px; font-weight: 800; letter-spacing: 0.15em; 
-            text-transform: uppercase; color: var(--purple); margin-bottom: 12px; 
-            display: block;
+        /* --- IMMERSIVE HERO --- */
+        .hero {
+            height: 90vh; min-height: 700px; background: var(--primary);
+            position: relative; display: flex; align-items: center; padding: 0 5%;
+            overflow: hidden;
         }
-        .section-title { font-size: clamp(28px, 5vw, 42px); font-weight: 600; line-height: 1.2; margin-bottom: 16px; }
+        .hero-overlay {
+            position: absolute; right: 0; top: 0; width: 60%; height: 100%;
+            background: url('https://i.vimeocdn.com/video/1945122458-75b3e26182c8dfa40d6a91f357b6b716c10cc071c2ba93bd7b41fd87448d779c-d') center/cover;
+            mask-image: linear-gradient(to left, black 70%, transparent);
+            -webkit-mask-image: linear-gradient(to left, black 70%, transparent);
+        }
+        .hero-content { position: relative; z-index: 10; max-width: 650px; color: white; }
+        .hero-content h1 { 
+            font-family: 'Baskervville', serif; font-size: clamp(40px, 7vw, 85px); 
+            line-height: 1; margin-bottom: 25px; 
+        }
+        .hero-content h1 span { color: var(--accent); font-style: italic; }
+        .hero-content p { font-size: 18px; opacity: 0.8; margin-bottom: 40px; font-weight: 300; }
 
-        /* Buttons */
-        .btn { 
-            display: inline-flex; align-items: center; justify-content: center;
-            gap: 10px; font-size: 15px; font-weight: 700; padding: 16px 32px; 
-            border-radius: var(--radius-md); border: none; cursor: pointer; 
-            transition: var(--transition); text-decoration: none;
+        /* --- CALL TO ACTION --- */
+        .btn {
+            display: inline-flex; align-items: center; padding: 20px 40px;
+            background: var(--accent); color: var(--primary);
+            text-decoration: none; font-weight: 800; border-radius: 50px;
+            transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
         }
-        .btn-purple { background: var(--purple); color: var(--white); box-shadow: var(--shadow-md); }
-        .btn-purple:hover { background: var(--purple-dark); transform: translateY(-2px); box-shadow: 0 15px 35px rgba(91,61,158,0.25); }
-        
-        .btn-white { background: var(--white); color: var(--purple); }
-        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4); }
 
-        .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.3); }
-        .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+        /* --- TRUST BAR (SMART REFRESH) --- */
+        .trust-strip {
+            background: var(--white); padding: 30px 5%; margin-top: -50px;
+            position: relative; z-index: 20; border-radius: var(--radius);
+            box-shadow: var(--shadow); max-width: 1200px; margin-left: auto; margin-right: auto;
+            display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;
+        }
+        .trust-item { text-align: center; }
+        .trust-item strong { display: block; font-size: 24px; color: var(--primary); }
+        .trust-item span { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* NAV - Glassmorphism */
-        .nav { 
-            position: sticky; top: 0; z-index: 1000; 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border); 
+        /* --- BENTO GRID SERVICES --- */
+        .section-padding { padding: 120px 5%; max-width: 1300px; margin: 0 auto; }
+        .bento-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 60px;
         }
-        .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; }
-        .nav-logo img { height: 50px; transition: transform 0.3s; }
-        .nav-logo:hover img { transform: scale(1.05); }
-        
-        .nav-links { display: flex; gap: 32px; list-style: none; }
-        .nav-links a { font-size: 14px; font-weight: 600; color: var(--dark); transition: var(--transition); }
-        .nav-links a:hover { color: var(--purple); }
+        .bento-card {
+            background: var(--white); padding: 40px; border-radius: var(--radius);
+            border: 1px solid rgba(0,0,0,0.03); transition: 0.4s;
+        }
+        .bento-card:nth-child(1) { grid-column: span 2; background: linear-gradient(45deg, #fff, #f4f4f4); }
+        .bento-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--accent); }
+        .bento-card h3 { font-family: 'Baskervville', serif; font-size: 28px; margin-bottom: 15px; }
+        .bento-card p { color: var(--text-light); }
 
-        /* HERO - Modern Gradient & Depth */
-        .hero { 
-            background: radial-gradient(circle at top right, var(--purple-light), var(--purple-dark)); 
-            color: var(--white); padding: 100px 0 120px; position: relative; overflow: hidden; 
+        /* --- SMART PROCESS (Horizontal on Mobile) --- */
+        .process-container {
+            display: flex; gap: 40px; overflow-x: auto; padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
         }
-        .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
-        .hero h1 { font-size: clamp(36px, 6vw, 62px); margin-bottom: 24px; }
-        .hero h1 em { color: var(--gold-bright); font-style: italic; }
-        .hero-sub { font-size: 18px; opacity: 0.9; margin-bottom: 40px; max-width: 500px; }
-        
-        .hero-visual { position: relative; }
-        .hero-img-wrap { 
-            border-radius: var(--radius-lg); overflow: hidden; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-            transform: perspective(1000px) rotateY(-5deg);
+        .process-step {
+            min-width: 280px; flex: 1; scroll-snap-align: start;
+            padding: 30px; border-left: 2px solid var(--accent);
         }
-        .hero-badge { 
-            position: absolute; bottom: -20px; left: -20px; 
-            background: var(--white); padding: 20px; border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 15px;
-            color: var(--dark); animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .step-num { font-size: 40px; font-weight: 800; color: var(--accent); opacity: 0.3; }
 
-        /* TRUST BAR */
-        .trust-bar { background: var(--purple-pale); padding: 24px 0; border-bottom: 1px solid var(--border); }
-        .trust-bar-inner { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
-        .trust-item { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; color: var(--purple-dark); opacity: 0.8; }
+        /* --- DARK CONTACT FOOTER --- */
+        .footer-cta {
+            background: var(--primary); color: white; padding: 100px 5%;
+            border-radius: 50px 50px 0 0; text-align: center;
+        }
+        .footer-cta h2 { font-family: 'Baskervville', serif; font-size: 50px; margin-bottom: 20px; }
 
-        /* SERVICES - Cards with Hover Effects */
-        .services { padding: 100px 0; background: var(--white); }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-top: 50px; }
-        .service-card { 
-            padding: 40px; border-radius: var(--radius-lg); background: var(--white);
-            border: 1px solid var(--border); transition: var(--transition);
-        }
-        .service-card:hover { 
-            transform: translateY(-10px); box-shadow: var(--shadow-md); border-color: var(--purple-pale);
-        }
-        .service-icon { 
-            width: 60px; height: 60px; background: var(--purple-pale); 
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            margin-bottom: 24px; color: var(--purple);
-        }
-
-        /* REVIEWS */
-        .reviews { padding: 100px 0; background: var(--light); }
-        .review-card { 
-            background: var(--white); padding: 32px; border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm); height: 100%; display: flex; flex-direction: column;
-        }
-        .review-text { font-family: 'Lora', serif; font-style: italic; margin: 20px 0; font-size: 15px; flex-grow: 1; }
-
-        /* SMART CTA FORM */
-        .cta-section { padding: 100px 0; text-align: center; }
-        .cta-box { 
-            max-width: 800px; margin: 0 auto; background: var(--purple-pale); 
-            padding: 60px 40px; border-radius: 24px; border: 1px solid var(--border);
-        }
-        .cta-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 15px; margin-top: 30px; }
-        .cta-form input { 
-            padding: 18px; border-radius: 12px; border: 2px solid var(--white); 
-            outline: none; font-family: inherit; font-size: 15px; transition: var(--transition);
-        }
-        .cta-form input:focus { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(91,61,158,0.1); }
-
-        /* FOOTER */
-        footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 80px 0 40px; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 50px; }
-        .footer-logo img { height: 60px; filter: brightness(0) invert(1); margin-bottom: 20px; }
-        .footer-col h5 { color: var(--white); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; }
-        .footer-col a { color: inherit; text-decoration: none; display: block; margin-bottom: 12px; transition: 0.2s; }
-        .footer-col a:hover { color: var(--gold); }
-
-        /* MOBILE FIXES */
-        @media (max-width: 991px) {
-            .hero-inner { grid-template-columns: 1fr; text-align: center; }
-            .hero-sub { margin-left: auto; margin-right: auto; }
-            .hero-actions { justify-content: center; }
-            .hero-visual { margin-top: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
-            .cta-form { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        @media (max-width: 768px) {
+            header { background: var(--primary); position: sticky; padding: 15px 5%; }
+            .hero { height: auto; padding: 100px 5% 150px; }
+            .hero-overlay { opacity: 0.4; width: 100%; mask-image: none; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-card:nth-child(1) { grid-column: span 1; }
+            .trust-strip { flex-direction: column; text-align: center; }
+            .nav-desktop { display: none; }
         }
     </style>
 </head>
 <body>
 
-<nav class="nav">
-    <div class="container nav-inner">
-        <a href="#" class="nav-logo">
-            <img src="https://img1.wsimg.com/isteam/ip/7cd32481-705d-4f85-87e1-e5b597209f53/Untitled%20design%20(12).png/:/rs=h:200,cg:true,m/qt=q:100/ll" alt="Uptown & Co.">
-        </a>
-        <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#contact" class="btn btn-purple" style="padding: 10px 20px; font-size: 13px;">Free Inspection</a>
-    </div>
-</nav>
+    <header>
+        <img src="https://img1.wsimg.com/isteam/ip/7cd32481-705d-4f85-87e1-e5b597209f53/Untitled%20design%20(12).png/:/rs=h:200,cg:true,m/qt=q:100/ll" class="logo" alt="Uptown & Co.">
+        <nav class="nav-desktop">
+            <a href="#services">The Services</a>
+            <a href="#process">How it Works</a>
+            <a href="#reviews">Testimonials</a>
+        </nav>
+        <a href="tel:2147399665" style="color:white; font-weight:800; text-decoration:none; font-size:14px;">214-739-9665</a>
+    </header>
 
-<section class="hero">
-    <div class="container">
-        <div class="hero-inner">
-            <div class="hero-content">
-                <span class="section-label" style="color: var(--gold-bright)">DFW Metroplex &middot; Trusted Experts</span>
-                <h1>Your Roof. <br><em>Done Right.</em> <br>Worry-Free.</h1>
-                <p class="hero-sub">The DFW choice for transparent, high-quality roofing. We handle the insurance, the installation, and the cleanup — usually in just 24 hours.</p>
-                <div class="hero-actions" style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <a href="#contact" class="btn btn-white">Book Free Inspection</a>
-                    <a href="#services" class="btn btn-outline">View Our Work</a>
-                </div>
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p style="text-transform:uppercase; letter-spacing:4px; font-weight:800; color:var(--accent); font-size:12px; margin-bottom:15px;">Elite Roofing & Construction</p>
+            <h1>Texas Homes. <br><span>Refined & Protected.</span></h1>
+            <p>From drone-assisted inspections to master-class installations, we treat your DFW property with the detail it deserves.</p>
+            <a href="#contact" class="btn">Claim Your Free Inspection</a>
+        </div>
+    </section>
+
+    <div class="trust-strip">
+        <div class="trust-item"><strong>5.0 ★</strong><span>Google Rated</span></div>
+        <div class="trust-item"><strong>24HR</strong><span>Rapid Install</span></div>
+        <div class="trust-item"><strong>130+</strong><span>DFW Projects</span></div>
+        <div class="trust-item"><strong>100%</strong><span>Claim Success</span></div>
+    </div>
+
+    <section class="section-padding" id="services">
+        <div style="text-align:center; margin-bottom:60px;">
+            <h2 style="font-family:'Baskervville', serif; font-size:45px;">The Uptown Standard</h2>
+            <p style="color:var(--text-light)">Beyond the shingle. We manage the art and science of home protection.</p>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-card">
+                <h3>Residential Excellence</h3>
+                <p>Architectural roofing designed to withstand Texas hail and wind. Most installations are finished and cleaned before the sun goes down.</p>
             </div>
-            <div class="hero-visual">
-                <div class="hero-img-wrap">
-                    <img src="https://i.vimeocdn.com/video/1945122458-75b3e26182c8dfa40d6a91f357b6b716c10cc071c2ba93bd7b41fd87448d779c-d" alt="Roofing excellence" style="width:100%; display:block;">
-                </div>
-                <div class="hero-badge">
-                    <div style="background: var(--purple-pale); padding: 10px; border-radius: 8px;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--purple)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    </div>
-                    <div>
-                        <div style="font-weight: 800; font-size: 14px;">Same-Day Install</div>
-                        <div style="font-size: 12px; color: var(--gray);">Efficiency you can trust.</div>
-                    </div>
-                </div>
+            <div class="bento-card">
+                <h3>Insurance Mastery</h3>
+                <p>We speak the adjuster's language. We manage the paperwork and advocate for your full restoration.</p>
+            </div>
+            <div class="bento-card">
+                <h3>Drone Analysis</h3>
+                <p>High-resolution aerial imagery ensures no damage is hidden from your claim.</p>
+            </div>
+            <div class="bento-card">
+                <h3>Exterior Care</h3>
+                <p>Custom gutters, fencing, and home additions tailored to your style.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div class="trust-bar">
-    <div class="container trust-bar-inner">
-        <div class="trust-item">✓ LICENSED & INSURED</div>
-        <div class="trust-item">✓ 5.0 GOOGLE RATING</div>
-        <div class="trust-item">✓ INSURANCE CLAIM SPECIALISTS</div>
-        <div class="trust-item">✓ DRONE DOCUMENTATION</div>
-    </div>
-</div>
-
-<section class="services" id="services">
-    <div class="container">
-        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
-            <span class="section-label">Our Expertise</span>
-            <h2 class="section-title">Built to Weather the Texas Storm</h2>
-            <p style="color: var(--gray)">We don't just fix roofs; we provide peace of mind through industry-leading materials and elite craftsmanship.</p>
+    <section class="section-padding" id="process" style="background:#fff; border-radius:50px;">
+        <h2 style="font-family:'Baskervville', serif; font-size:45px; margin-bottom:50px;">The Simple Path</h2>
+        <div class="process-container">
+            <div class="process-step">
+                <div class="step-num">01</div>
+                <h3>The Scan</h3>
+                <p>Free drone-assisted inspection and damage report.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-step">
+                <div class="step-num">02</div>
+                <h3>The Claim</h3>
+                <p>We handle all insurance communication on your behalf.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">03</div>
+                <h3>The Build</h3>
+                <p>Elite installation, usually completed in a single day.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">04</div>
+                <h3>The Sign-off</h3>
+                <p>Final aerial walkthrough to ensure perfection.</p>
+            </div>
         </div>
+    </section>
+
+    <section class="footer-cta" id="contact">
+        <p style="color:var(--accent); font-weight:800; text-transform:uppercase; margin-bottom:20px; letter-spacing:2px;">Get Started</p>
+        <h2>Your roof is one <br>phone call away.</h2>
+        <p style="opacity:0.7; margin-bottom:40px; max-width:600px; margin-left:auto; margin-right:auto;">Experience the roofing company that DFW homeowners actually trust. No pressure, just professional expertise.</p>
+        <a href="tel:2147399665" class="btn">Call 214-739-9665</a>
         
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                </div>
-                <h3>Residential Roofing</h3>
-                <p style="font-size: 14px; color: var(--gray); margin-top: 15px;">Full-scale replacements using premium shingles designed for the DFW climate.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
-                </div>
-                <h3>Insurance Claims</h3>
-                <p style="font-size: 14px; color: var(--gray); margin-top: 15px;">We represent you. From filing to the final walkthrough, we handle the adjusters.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>
-                </div>
-                <h3>Storm Damage</h3>
-                <p style="font-size: 14px; color: var(--gray); margin-top: 15px;">Fast, drone-assisted damage appraisals to stop leaks before they start.</p>
-            </div>
+        <div style="margin-top:80px; opacity:0.3; font-size:12px; letter-spacing:1px;">
+            © 2026 UPTOWN & CO. ROOFING & CONSTRUCTION | NORTH RICHLAND HILLS, TX
         </div>
-    </div>
-</section>
-
-<section class="cta-section" id="contact">
-    <div class="container">
-        <div class="cta-box">
-            <span class="section-label">Ready to start?</span>
-            <h2 class="section-title">Get Your Free Roof Inspection</h2>
-            <p>Join 130+ happy homeowners in DFW. No pressure, just a professional assessment.</p>
-            
-            <form class="cta-form">
-                <input type="text" placeholder="Full Name" required>
-                <input type="text" placeholder="Phone or Email" required>
-                <button type="submit" class="btn btn-purple">Send Request</button>
-            </form>
-            
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 30px; font-size: 14px; font-weight: 600;">
-                <a href="tel:2147399665" style="color: var(--purple); text-decoration: none;">☏ 214-739-9665</a>
-                <span style="color: var(--border)">|</span>
-                <span style="color: var(--gray)">NRH &middot; Garland &middot; Rockwall</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo">
-                    <img src="https://img1.wsimg.com/isteam/ip/7cd32481-705d-4f85-87e1-e5b597209f53/Untitled%20design%20(12).png/:/rs=h:200,cg:true,m/qt=q:100/ll" alt="Uptown Logo">
-                </div>
-                <p style="font-size: 14px; line-height: 1.8;">Uptown & Co. provides elite roofing and construction services across the DFW Metroplex. We pride ourselves on communication and quality.</p>
-            </div>
-            <div class="footer-col">
-                <h5>Company</h5>
-                <a href="#">About Us</a>
-                <a href="#">Meet the Team</a>
-                <a href="#">Certifications</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-            <div class="footer-col">
-                <h5>Services</h5>
-                <a href="#">Residential Roofing</a>
-                <a href="#">Gutter Installation</a>
-                <a href="#">Storm Damage Repair</a>
-                <a href="#">Claim Management</a>
-            </div>
-        </div>
-        <div style="padding-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; font-size: 12px;">
-            <p>&copy; 2026 Uptown Roofing & Co. All rights reserved.</p>
-            <div style="display: flex; gap: 20px;">
-                <a href="#" style="color: inherit;">Facebook</a>
-                <a href="#" style="color: inherit;">Instagram</a>
-                <a href="#" style="color: inherit;">TikTok</a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script>
-    // Smooth appearance on scroll (Smart Feature)
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.service-card, .cta-box').forEach(el => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(30px)";
-        el.style.transition = "all 0.8s ease-out";
-        observer.observe(el);
-    });
-</script>
+    </section>
 
 </body>
 </html>
