@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1A1C2E; /* Deep Indigo */
-            --accent: #D4AF37;  /* Metallic Gold */
+            --primary: #42207A; /* Deep Purple from original site */
+            --accent: #5C5C5C;  /* Charcoal grey to complement the purple */
             --bg: #F8F9FC;
             --white: #FFFFFF;
             --text: #2D3142;
             --text-light: #707589;
             --radius: 20px;
-            --shadow: 0 20px 40px rgba(26, 28, 46, 0.08);
+            --shadow: 0 20px 40px rgba(66, 32, 122, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,16 +24,18 @@
         /* --- SMART HEADER --- */
         header {
             position: absolute; top: 0; width: 100%; z-index: 100;
-            padding: 30px 5%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: var(--white); /* White background to match original site */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .logo { height: 45px; filter: brightness(0) invert(1); }
+        .logo { height: 60px; /* Filter removed so the full color logo displays correctly */ }
         .nav-desktop { display: flex; gap: 40px; }
-        .nav-desktop a { color: white; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-desktop a { color: var(--primary); text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
         /* --- IMMERSIVE HERO --- */
         .hero {
             height: 90vh; min-height: 700px; background: var(--primary);
-            position: relative; display: flex; align-items: center; padding: 0 5%;
+            position: relative; display: flex; align-items: center; padding: 100px 5% 0; /* Padding adjusted for white header */
             overflow: hidden;
         }
         .hero-overlay {
@@ -47,18 +49,18 @@
             font-family: 'Baskervville', serif; font-size: clamp(40px, 7vw, 85px); 
             line-height: 1; margin-bottom: 25px; 
         }
-        .hero-content h1 span { color: var(--accent); font-style: italic; }
+        .hero-content h1 span { color: var(--accent); font-style: italic; opacity: 0.9; }
         .hero-content p { font-size: 18px; opacity: 0.8; margin-bottom: 40px; font-weight: 300; }
 
         /* --- CALL TO ACTION --- */
         .btn {
             display: inline-flex; align-items: center; padding: 20px 40px;
-            background: var(--accent); color: var(--primary);
+            background: var(--white); color: var(--primary);
             text-decoration: none; font-weight: 800; border-radius: 50px;
             transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4); }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
 
         /* --- TRUST BAR (SMART REFRESH) --- */
         .trust-strip {
@@ -80,9 +82,9 @@
             background: var(--white); padding: 40px; border-radius: var(--radius);
             border: 1px solid rgba(0,0,0,0.03); transition: 0.4s;
         }
-        .bento-card:nth-child(1) { grid-column: span 2; background: linear-gradient(45deg, #fff, #f4f4f4); }
-        .bento-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--accent); }
-        .bento-card h3 { font-family: 'Baskervville', serif; font-size: 28px; margin-bottom: 15px; }
+        .bento-card:nth-child(1) { grid-column: span 2; background: linear-gradient(45deg, #fff, #f4f0fa); }
+        .bento-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
+        .bento-card h3 { font-family: 'Baskervville', serif; font-size: 28px; margin-bottom: 15px; color: var(--primary); }
         .bento-card p { color: var(--text-light); }
 
         /* --- SMART PROCESS (Horizontal on Mobile) --- */
@@ -92,9 +94,9 @@
         }
         .process-step {
             min-width: 280px; flex: 1; scroll-snap-align: start;
-            padding: 30px; border-left: 2px solid var(--accent);
+            padding: 30px; border-left: 2px solid var(--primary);
         }
-        .step-num { font-size: 40px; font-weight: 800; color: var(--accent); opacity: 0.3; }
+        .step-num { font-size: 40px; font-weight: 800; color: var(--primary); opacity: 0.2; }
 
         /* --- DARK CONTACT FOOTER --- */
         .footer-cta {
@@ -104,7 +106,7 @@
         .footer-cta h2 { font-family: 'Baskervville', serif; font-size: 50px; margin-bottom: 20px; }
 
         @media (max-width: 768px) {
-            header { background: var(--primary); position: sticky; padding: 15px 5%; }
+            header { background: var(--white); position: sticky; padding: 15px 5%; }
             .hero { height: auto; padding: 100px 5% 150px; }
             .hero-overlay { opacity: 0.4; width: 100%; mask-image: none; }
             .bento-grid { grid-template-columns: 1fr; }
@@ -117,19 +119,19 @@
 <body>
 
     <header>
-        <img src="https://img1.wsimg.com/isteam/ip/7cd32481-705d-4f85-87e1-e5b597209f53/Untitled%20design%20(12).png/:/rs=h:200,cg:true,m/qt=q:100/ll" class="logo" alt="Uptown & Co.">
+        <img src="Gemini_Generated_Image_u7137mu7137mu713.jpg" class="logo" alt="Uptown & Co.">
         <nav class="nav-desktop">
             <a href="#services">The Services</a>
             <a href="#process">How it Works</a>
             <a href="#reviews">Testimonials</a>
         </nav>
-        <a href="tel:2147399665" style="color:white; font-weight:800; text-decoration:none; font-size:14px;">214-739-9665</a>
+        <a href="tel:2147399665" style="color:var(--primary); font-weight:800; text-decoration:none; font-size:14px;">214-739-9665</a>
     </header>
 
     <section class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p style="text-transform:uppercase; letter-spacing:4px; font-weight:800; color:var(--accent); font-size:12px; margin-bottom:15px;">Elite Roofing & Construction</p>
+            <p style="text-transform:uppercase; letter-spacing:4px; font-weight:800; color:var(--white); font-size:12px; margin-bottom:15px; opacity:0.8;">Elite Roofing & Construction</p>
             <h1>Texas Homes. <br><span>Refined & Protected.</span></h1>
             <p>From drone-assisted inspections to master-class installations, we treat your DFW property with the detail it deserves.</p>
             <a href="#contact" class="btn">Claim Your Free Inspection</a>
@@ -145,7 +147,7 @@
 
     <section class="section-padding" id="services">
         <div style="text-align:center; margin-bottom:60px;">
-            <h2 style="font-family:'Baskervville', serif; font-size:45px;">The Uptown Standard</h2>
+            <h2 style="font-family:'Baskervville', serif; font-size:45px; color:var(--primary);">The Uptown Standard</h2>
             <p style="color:var(--text-light)">Beyond the shingle. We manage the art and science of home protection.</p>
         </div>
 
@@ -170,7 +172,7 @@
     </section>
 
     <section class="section-padding" id="process" style="background:#fff; border-radius:50px;">
-        <h2 style="font-family:'Baskervville', serif; font-size:45px; margin-bottom:50px;">The Simple Path</h2>
+        <h2 style="font-family:'Baskervville', serif; font-size:45px; margin-bottom:50px; color:var(--primary);">The Simple Path</h2>
         <div class="process-container">
             <div class="process-step">
                 <div class="step-num">01</div>
@@ -178,7 +180,6 @@
                 <p>Free drone-assisted inspection and damage report.</p>
             </div>
             <div class="process-step">
-                <div class="process-step">
                 <div class="step-num">02</div>
                 <h3>The Claim</h3>
                 <p>We handle all insurance communication on your behalf.</p>
@@ -197,7 +198,7 @@
     </section>
 
     <section class="footer-cta" id="contact">
-        <p style="color:var(--accent); font-weight:800; text-transform:uppercase; margin-bottom:20px; letter-spacing:2px;">Get Started</p>
+        <p style="color:var(--white); font-weight:800; text-transform:uppercase; margin-bottom:20px; letter-spacing:2px; opacity:0.8;">Get Started</p>
         <h2>Your roof is one <br>phone call away.</h2>
         <p style="opacity:0.7; margin-bottom:40px; max-width:600px; margin-left:auto; margin-right:auto;">Experience the roofing company that DFW homeowners actually trust. No pressure, just professional expertise.</p>
         <a href="tel:2147399665" class="btn">Call 214-739-9665</a>
